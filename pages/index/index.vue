@@ -47,7 +47,7 @@
 				<button @click="sendMsg" :disabled="msgLoad" class="btn">{{sentext}}</button>
 			</view>
 		</view>
-		<!-- <uni-popup ref="popup" type="center">
+		<uni-popup ref="popup" type="center">
 			<view class="popcls">
 				<view class="uni-textarea" style="width: 90%;margin: 20rpx 20rpx;border: 1px solid #000000;">
 					<textarea style="width: 100%; " placeholder-style="color:#F76260" :placeholder="apiadj"
@@ -58,7 +58,7 @@
 					<button style="margin: 10rpx;" @click="clopop">取消</button>
 				</view>
 			</view>
-		</uni-popup> -->
+		</uni-popup>
 	</view>
 </template>
 
@@ -74,7 +74,7 @@
 				apibut: 'api检测中,请稍等...',
 				sentext: '发送',
 				// apiadj: '在此输入你的APIKEY',
-				api: '',
+				api: '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',
 				msgLoad: false,
 				anData: {},
 				animationData: {},
@@ -97,27 +97,26 @@
 		
 			const that = this;
 			this.userAvatar = uni.getStorageSync('user-avatar')
-			// this.apiset()
+			this.apiset()
 			try {
 				const value = uni.getStorageSync('sk');
-				// if (value) {
-				// 	console.log(value);
-				// 	this.api = value
-
-				// }
+				if (value) {
+					console.log(value);
+					this.api = value
+				}
 			} catch (e) {
 				// error
 				console.log(e);
 			}
-			// uni.request({
-			// 	url: this.apiurl,
+			uni.request({
+				url: this.apiurl,
 
-			// 	method: 'GET',
-			// 	success: (res) => {
-			// 		console.log(res);
-			// 		this.apiadj = res.data
-			// 	}
-			// })
+				method: 'GET',
+				success: (res) => {
+					console.log(res);
+					this.apiadj = res.data
+				}
+			})
 
 		},
 
@@ -138,35 +137,35 @@
 			openpop() {
 				this.$refs.popup.open('center')
 			},
-			// apiset() {
-			// 	// this.$refs.popup.close('center')
-			// 	this.apibut = 'api检测中,请稍等...'
-			// 	let data = JSON.stringify({
-			// 		msg: "你好",
-			// 		// openaikey: this.api
-			// 	})
-			// 	uni.request({
-			// 		url: this.apiurl + '/message',
-			// 		data: data,
-			// 		method: 'POST',
-			// 		success: (res) => {
-			// 			console.log('suc', res, res.data.code)
-			// 			if (res.data.code == 200) {
-			// 				this.apibut = '连接成功',
-			// 					this.apisucc = true
-			// 				this.sentext = '发送'
-			// 				this.msgLoad = false
-			// 				this.setsklocal(this.api)
-			// 			} else {
-			// 				this.apibut = '连接失败，请检查apikey后重试'
-			// 			}
-			// 		},
-			// 		fail:(err)=> {
-			// 			this.apibut = '连接失败，请检查apikey后重试'
-			// 		}
-			// 	})
+			apiset() {
+				// this.$refs.popup.close('center')
+				this.apibut = 'api检测中,请稍等...'
+				let data = JSON.stringify({
+					msg: "你好",
+					// openaikey: this.api
+				})
+				uni.request({
+					url: this.apiurl + '/message',
+					data: data,
+					method: 'POST',
+					success: (res) => {
+						console.log('suc', res, res.data.code)
+						if (res.data.code == 200) {
+							this.apibut = '连接成功',
+								this.apisucc = true
+							this.sentext = '发送'
+							this.msgLoad = false
+							this.setsklocal(this.api)
+						} else {
+							this.apibut = '连接失败，请检查apikey后重试'
+						}
+					},
+					fail:(err)=> {
+						this.apibut = '连接失败，请检查apikey后重试'
+					}
+				})
 
-			// },
+			},
 			sendMsg() {
 				// 消息为空不做任何操作
 				if (this.msg == "") {
@@ -234,9 +233,9 @@
 	}
 
 	.bg {
-		/* overflow: scroll; */
-		/* background: url('../../static/6.png') no-repeat;
-		background-size: 100% 100%; */
+		overflow: scroll;
+		background: url('../../static/6.png') no-repeat;
+		background-size: 100% 100%;
 		width: 100%;
 		height: 100%;
 	}
@@ -281,8 +280,8 @@
 	.chat-img {
 		overflow: hidden;
 		border-radius: 50%;
-		/* width: 100rpx;
-		height: 100rpx; */
+		width: 100rpx;
+		height: 100rpx;
 		background-color: #f7f7f7;
 		display: flex;
 		flex-direction: row;
@@ -313,7 +312,7 @@
 		flex-direction: row;
 		justify-content: space-around;
 		align-items: center;
-		/* background-color: #f9f9f9; */
+		background-color: #f9f9f9;
 		width: 100%;
 		height: 110rpx;
 		font-size: 40rpx;
