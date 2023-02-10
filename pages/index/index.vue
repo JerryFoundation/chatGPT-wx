@@ -1,6 +1,6 @@
 <template>
 	<view class="bg">
-		<image src="../../static/6.png" mode="scaleToFill" class="bg-img"></image>
+		<!-- <image src="../../static/6.png" mode="scaleToFill" class="bg-img"></image> -->
 		<scroll-view scroll-with-animation :scroll-y="isScroll" :scroll-top="scrollTop" style="width: 100%;padding-top: 140rpx;">
 			<!-- 用来获取消息体高度 -->
 			<view id="okk" scroll-with-animation>
@@ -21,7 +21,7 @@
 					<!-- 机器人消息 -->
 					<view v-if="!x.my" class="aiinfo">
 						<view class="chat-img ">
-							<image style="height: 100rpx;width: 100rpx;" src="../../static/9.jpg" mode="scaleToFill">
+							<image style="height: 100rpx;width: 100rpx;" src="../../static/6.png" mode="scaleToFill">
 							</image>
 						</view>
 						<view class="flex" style="max-width: 500rpx;">
@@ -47,7 +47,7 @@
 				<button @click="sendMsg" :disabled="msgLoad" class="btn">{{sentext}}</button>
 			</view>
 		</view>
-		<uni-popup ref="popup" type="center">
+		<!-- <uni-popup ref="popup" type="center">
 			<view class="popcls">
 				<view class="uni-textarea" style="width: 90%;margin: 20rpx 20rpx;border: 1px solid #000000;">
 					<textarea style="width: 100%; " placeholder-style="color:#F76260" :placeholder="apiadj"
@@ -58,7 +58,7 @@
 					<button style="margin: 10rpx;" @click="clopop">取消</button>
 				</view>
 			</view>
-		</uni-popup>
+		</uni-popup> -->
 	</view>
 </template>
 
@@ -73,7 +73,7 @@
 				apisucc: true,
 				apibut: 'api检测中,请稍等...',
 				sentext: '发送',
-				// apiadj: '在此输入你的APIKEY',
+				// apiadj: '',
 				api: '',
 				msgLoad: false,
 				anData: {},
@@ -97,7 +97,7 @@
 		
 			const that = this;
 			this.userAvatar = uni.getStorageSync('user-avatar')
-			this.apiset()
+			// this.apiset()
 			try {
 				const value = uni.getStorageSync('sk');
 				if (value) {
@@ -108,20 +108,19 @@
 				// error
 				console.log(e);
 			}
-			uni.request({
-				url: this.apiurl,
-
-				method: 'GET',
-				success: (res) => {
-					console.log(res);
-					this.apiadj = res.data
-				}
-			})
+			// uni.request({
+			// 	url: this.apiurl,
+			// 	method: 'GET',
+			// 	success: (res) => {
+			// 		console.log(res);
+			// 		this.apiadj = res.data
+			// 	}
+			// })
 
 		},
 
 		methods: {
-			
+		
 			setsklocal(apikey) {
 				uni.setStorage({
 					key: 'sk',
@@ -137,35 +136,35 @@
 			openpop() {
 				this.$refs.popup.open('center')
 			},
-			apiset() {
-				this.$refs.popup.close('center')
-				this.apibut = 'api检测中,请稍等...'
-				let data = JSON.stringify({
-					msg: "你好",
-					openaikey: this.api
-				})
-				uni.request({
-					url: this.apiurl + '/message',
-					data: data,
-					method: 'POST',
-					success: (res) => {
-						console.log('suc', res, res.data.code)
-						if (res.data.code == 200) {
-							this.apibut = '连接成功',
-								this.apisucc = true
-							this.sentext = '发送'
-							this.msgLoad = false
-							this.setsklocal(this.api)
-						} else {
-							this.apibut = '连接失败，请检查apikey后重试'
-						}
-					},
-					fail:(err)=> {
-						this.apibut = '连接失败，请检查apikey后重试'
-					}
-				})
+			// apiset() {
+			// 	this.$refs.popup.close('center')
+			// 	this.apibut = 'api检测中,请稍等...'
+			// 	let data = JSON.stringify({
+			// 		msg: "你好",
+			// 		openaikey: this.api
+			// 	})
+			// 	uni.request({
+			// 		url: this.apiurl + '/message',
+			// 		data: data,
+			// 		method: 'POST',
+			// 		success: (res) => {
+			// 			console.log('suc', res, res.data.code)
+			// 			if (res.data.code == 200) {
+			// 				this.apibut = '连接成功',
+			// 					this.apisucc = true
+			// 				this.sentext = '发送'
+			// 				this.msgLoad = false
+			// 				this.setsklocal(this.api)
+			// 			} else {
+			// 				this.apibut = '连接失败，请检查apikey后重试'
+			// 			}
+			// 		},
+			// 		fail:(err)=> {
+			// 			this.apibut = '连接失败，请检查apikey后重试'
+			// 		}
+			// 	})
 
-			},
+			// },
 			sendMsg() {
 				// 消息为空不做任何操作
 				if (this.msg == "") {
@@ -195,8 +194,9 @@
 					method: 'POST',
 					success: (res) => {
 						if (res.data.code == 200) {
-							let text = res.data.resmsg.replace("openai:", "").replace("openai：", "")
-								.replace(/^\n|\n$/g, "")
+							// let text = res.data.resmsg.replace("openai:", "").replace("openai：", "")
+							// 	.replace(/^\n|\n$/g, "")
+							let text = res.data.resmsg.replace(/^\n|\n$/g, "")
 							console.log(text);
 							this.msgList.push({
 								"msg": text,
@@ -208,8 +208,16 @@
 							this.sentext = '发送'
 							this.scrollToBottom()
 						} else {
-							this.apibut = '连接失败，请检查apikey后重试'
-							this.apisucc = false
+							// this.apibut = '连接失败，请检查apikey后重试'
+							// this.apisucc = false
+							this.msgList = [{
+					my: false,
+					msg: "答案超限，重新提问吧"
+				}],
+							this.msgContent = ""
+							this.msgLoad = false
+							this.sentext = '发送'
+							this.scrollToBottom()
 						}
 					},
 					fail: (err) => {
@@ -234,7 +242,7 @@
 
 	.bg {
 		overflow: scroll;
-		background: url('../../static/6.png') no-repeat;
+		/* background: url('../../static/6.png') no-repeat; */
 		background-size: 100% 100%;
 		width: 100%;
 		height: 100%;
