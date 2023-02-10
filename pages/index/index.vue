@@ -74,7 +74,7 @@
 				apibut: 'api检测中,请稍等...',
 				sentext: '发送',
 				// apiadj: '在此输入你的APIKEY',
-				api: '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',
+				api: '',
 				msgLoad: false,
 				anData: {},
 				animationData: {},
@@ -138,11 +138,11 @@
 				this.$refs.popup.open('center')
 			},
 			apiset() {
-				// this.$refs.popup.close('center')
+				this.$refs.popup.close('center')
 				this.apibut = 'api检测中,请稍等...'
 				let data = JSON.stringify({
 					msg: "你好",
-					// openaikey: this.api
+					openaikey: this.api
 				})
 				uni.request({
 					url: this.apiurl + '/message',
